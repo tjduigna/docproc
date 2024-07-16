@@ -1,0 +1,40 @@
+[project]
+name = "docproc"
+dynamic = ["version"]
+dependencies = []
+
+[build-system]
+build-backend = "setuptools.build_meta"
+requires = [
+    "build == 0.9.0",
+    "setuptools == 65.4.0",
+    "setuptools_scm[toml] == 7.0.5",
+]
+
+[tool.setuptools_scm]
+root = "."
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["docproc*"]
+namespaces = false
+
+[tool.ruff]
+line-length = 88
+select = [
+    "F",
+    "I",
+]
+ignore = [
+    "E",
+    "W",
+]
+preview = true
+
+[tool.ruff.flake8-tidy-imports]
+ban-relative-imports = "all"
+
+[tool.mypy]
+ignore_missing_imports = true
+strict = true
+disallow_untyped_decorators = false
