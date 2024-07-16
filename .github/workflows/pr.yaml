@@ -50,13 +50,11 @@ jobs:
         uses: tj-actions/changed-files@v39
         with:
           files: dockerfiles/base/*
+      - name: Configure docker
+        run: echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u ${{ github.repository_owner }} --password-stdin
       - name: Pull base image and build
         if: steps.changed-files.outputs.any_changed == 'true'
-        run: |
-          echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u ${{ github.repository_owner }} --password-stdin
-          python docker.py pull --build --push
+        run: python docker.py pull --build
       - name: Pull base image
         if: steps.changed-files.outputs.any_changed != 'true'
-        run: |
-          echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u ${{ github.repository_owner }} --password-stdin
-          python docker.py pull
+        run: python docker.py pull
