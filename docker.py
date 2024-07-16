@@ -119,12 +119,15 @@ def get_version_bump(base_tag: str | None = None) -> str:
             bump = token.split()[1]
             break
     if bump == "skip":
-        return ""
+        return "skip"
     try:
         import semver
 
         new_version = getattr(semver, f"bump_{bump}")(base_tag.lstrip("v"))
         return f"v{new_version}"
+    except ValueError:
+        LOG.error("could not infer version, assuming v0.1.0")
+        return "v0.1.0"
     except ImportError:
         LOG.error("could not import semver")
         return ""
